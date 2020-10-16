@@ -98,29 +98,29 @@ const set_prod = (cb) => {
 
 const sync = (cb) => {
 
-  // const {store, theme_id} = config.development
+  const {store, theme_id} = config.development
   
-  // bs.init({
-  //   proxy: `https://${config.shop}/?preview_theme_id=${theme_id}`,
-  //   files: 'theme_ready',
-  //   reloadDelay: 1300,
-  //   open: false,
-  //   snippetOptions: {
-  //     rule: {
-  //         match: /<\/body>/i,
-  //         fn: function (snippet, match) {
-  //             return snippet + match
-  //         }
-  //     }
-  //   }
-  // })
+  bs.init({
+    proxy: `https://${config.shop}/?preview_theme_id=${theme_id}`,
+    files: 'theme_ready',
+    reloadDelay: 1300,
+    open: false,
+    snippetOptions: {
+      rule: {
+          match: /<\/body>/i,
+          fn: function (snippet, match) {
+              return snippet + match
+          }
+      }
+    }
+  })
   cb()
 }
 
 export const watch_theme = (cb) => {
   watch('src/**/*.js', transpile)
   watch('src/**/*.styl', styles)
-  // themekit.command('watch', { notify: 'theme_ready' })
+  themekit.command('watch', { notify: 'theme_ready' })
 }
 
 export const dev = series(transpile, styles, sync, watch_theme)
