@@ -1,0 +1,16 @@
+breaks = {
+  sm: 640px
+  md: 768px
+  lg: 1024px
+  xl: 1280px
+}
+
+breakpoint(break)
+  @media (min-width: break)
+    {block}
+
+container =
+  max-width breaks.xl
+  margin 0 auto
+  padding 100px 40px
+  min-height 20vh

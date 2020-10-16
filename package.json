@@ -1,0 +1,53 @@
+{
+  "name": "shopify-theme",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "shopify-themekit deploy && gulp dev",
+    "watch": "gulp dev",
+    "build": "gulp build",
+    "deploy": "gulp build && shopify-themekit deploy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshliptzin/smartkiosk.git"
+  },
+  "author": "me@darren-segal.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joshliptzin/smartkiosk/issues"
+  },
+  "homepage": "https://github.com/joshliptzin/smartkiosk#readme",
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "@shopify/themekit": "^1.1.6",
+    "browser-sync": "^2.26.12",
+    "clear": "^0.1.0",
+    "cssnano": "^4.1.10",
+    "del": "^6.0.0",
+    "esm": "^3.2.25",
+    "fs": "0.0.1-security",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-cssnano": "^2.1.3",
+    "gulp-flatmap": "^1.0.2",
+    "gulp-if": "^3.0.0",
+    "gulp-postcss": "^9.0.0",
+    "gulp-size": "^3.0.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-stylus": "^2.7.0",
+    "gulp-tap": "^2.0.0",
+    "gulp-uglify": "^3.0.2",
+    "tailwindcss": "^1.8.11",
+    "through2": "^4.0.2",
+    "vinyl-named": "^1.1.0",
+    "webpack-stream": "^6.1.0",
+    "yaml": "^1.10.0"
+  },
+  "dependencies": {
+    "animejs": "^3.2.1"
+  }
+}

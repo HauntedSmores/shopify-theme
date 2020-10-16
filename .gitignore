@@ -1,0 +1,7 @@
+dist
+node_modules
+config.yml
+theme_ready
+assets/theme.css
+assets/*.js
+snippets/theme-scripts.liquid
