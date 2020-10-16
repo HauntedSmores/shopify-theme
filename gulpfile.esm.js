@@ -101,7 +101,7 @@ const sync = (cb) => {
   const {store, theme_id} = config.development
   
   bs.init({
-    proxy: `https://${config.shop}/?preview_theme_id=${theme_id}`,
+    proxy: `https://${store}/?preview_theme_id=${theme_id}`,
     files: 'theme_ready',
     reloadDelay: 1300,
     open: false,
