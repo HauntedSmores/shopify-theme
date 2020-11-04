@@ -49,30 +49,39 @@ const end_snippet = (cb) => {
   cb()
 }
 
-const transpile = series(delete_snippet, () => {
-  return src('src/scripts/**/*.js')
-    .pipe(flatmap((stream, file) => {
-        const fileExists = fs.existsSync(snippetPath)
-        const is_theme = file.stem === 'theme'
-
-        if (!is_theme) {
-          const content = [
-            `{% ${fileExists ? "elsif" : "if"} template == "${file.stem}" %}`,
-            `{{ "${file.basename}" | asset_url | script_tag }}\n`
-          ].join("\n    ")
-          
-          fs.appendFileSync(snippetPath, content)
-        }
-
-        return stream
-      }))
+export const transpile = series(delete_snippet, () => {
+  return src(['src/scripts/theme.js', 'src/scripts/templates/**/*.js'])
     .pipe(sourcemaps.init())
     .pipe(babel({
 			presets: ['@babel/preset-env']
     }))
     .pipe(named())
     .pipe(webpack({
-      mode: process.env.NODE_ENV
+      mode: process.env.NODE_ENV,
+      optimization: {
+        splitChunks: {
+          chunks: 'all',
+          minSize:0,
+          minChunks: 1
+        }
+      }
+    }))
+    .pipe(flatmap((stream, file) => {
+      // const fileExists = fs.existsSync(snippetPath)
+      // const is_theme = file.stem === 'theme'
+
+      console.log(file.basename, file.stem)
+
+      // if (!is_theme) {
+      //   const content = [
+      //     `{% ${fileExists ? "elsif" : "if"} template == "${file.stem}" %}`,
+      //     `{{ "${file.basename}" | asset_url | script_tag }}\n`
+      //   ].join("\n    ")
+        
+      //   fs.appendFileSync(snippetPath, content)
+      // }
+
+      return stream
     }))
     .pipe(gulpif(process.env.NODE_ENV === 'development', sourcemaps.write()))
     .pipe(touch())
