@@ -43,7 +43,7 @@ const end_snippet = (cb) => {
   const content = [
     "{% endif %}",
     "{{ 'theme.js' | asset_url | script_tag }}"
-  ].join("\n\n")
+  ].join("\n")
 
   fs.appendFileSync(snippetPath, content)
   cb()
@@ -61,8 +61,9 @@ export const transpile = series(delete_snippet, () => {
       optimization: {
         splitChunks: {
           chunks: 'all',
-          minSize:0,
-          minChunks: 1
+          minSize: 0,
+          minChunks: 1,
+
         }
       }
     }))
@@ -70,23 +71,24 @@ export const transpile = series(delete_snippet, () => {
       // const fileExists = fs.existsSync(snippetPath)
       // const is_theme = file.stem === 'theme'
 
-      console.log(file.basename, file.stem)
+      const stems = file.stem.split("~").filter(stem => stem != "vendors" && stem != "theme")
+      
+      // const template_logic = stems.map(stem => );
 
-      // if (!is_theme) {
-      //   const content = [
-      //     `{% ${fileExists ? "elsif" : "if"} template == "${file.stem}" %}`,
-      //     `{{ "${file.basename}" | asset_url | script_tag }}\n`
-      //   ].join("\n    ")
-        
-      //   fs.appendFileSync(snippetPath, content)
-      // }
+      const content = [
+        `\n{% if ${stems.map(stem => `template == ${stem}`).join(" or ")} %}`,
+        `    {{ "${file.basename}" | asset_url | script_tag }}`,
+        `{% endif %}\n`
+      ].join("\n")
+      
+      fs.appendFileSync(snippetPath, content)
 
       return stream
     }))
     .pipe(gulpif(process.env.NODE_ENV === 'development', sourcemaps.write()))
     .pipe(touch())
     .pipe(dest('assets/'))
-}, end_snippet)
+})
 
 const styles = () => {
   return src('src/styles/theme.styl')
