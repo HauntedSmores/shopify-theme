@@ -4,10 +4,8 @@ import flatmap from 'gulp-flatmap'
 import gulpif from 'gulp-if'
 import size from 'gulp-size'
 import babel from 'gulp-babel'
-import compiler from 'webpack'
 import webpack from 'webpack-stream'
 import named from 'vinyl-named'
-import uglify from 'gulp-uglify'
 import stylus from 'gulp-stylus'
 import postcss from 'gulp-postcss'
 import nano from 'gulp-cssnano'
@@ -27,6 +25,11 @@ const config = yaml.parse(configFile)
 
 const bs = browserSync.create()
 
+/*
+Necessary for themekit to see file updates
+  - https://github.com/gulpjs/gulp/issues/2193
+  - https://github.com/gulpjs/vinyl/issues/105
+*/
 const touch = () => through2.obj( function( file, enc, cb ) {
   if ( file.stat ) {
     file.stat.atime = file.stat.mtime = file.stat.ctime = new Date()
@@ -76,7 +79,6 @@ const transpile = (cb) => {
     }, null, cb()))
     .pipe(flatmap((stream, file) => {
       const files = file.stem.split("@").filter(stem => stem != "vendors").map(file => `template == \"${file}\"`)
-      const file_link = `{{ "${file.basename}" | asset_url | script_tag }}`
       const content = [
         `\n{% if ${files.join(" or ")} %}`,
         `\t{{ "${file.basename}" | asset_url | script_tag }}`,
@@ -131,7 +133,6 @@ const sync = (cb) => {
 }
 
 export const watch_theme = (cb) => {
-  // watch('src/**/*.js', js)
   watch('src/**/*.styl', styles)
   themekit.command('watch', { notify: 'theme_ready', 'allow-live': true })
   cb()
