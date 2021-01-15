@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "shopify-themekit deploy && gulp dev",
+    "start": "gulp build && gulp dev",
     "watch": "gulp dev",
     "build": "gulp build",
-    "deploy": "gulp build && shopify-themekit deploy"
+    "deploy": "gulp build && shopify-themekit deploy --allow-live"
   },
   "repository": {
     "type": "git",
@@ -41,9 +41,11 @@
     "gulp-stylus": "^2.7.0",
     "gulp-tap": "^2.0.0",
     "gulp-uglify": "^3.0.2",
+    "html-webpack-plugin": "^4.5.1",
     "tailwindcss": "^1.8.11",
     "through2": "^4.0.2",
     "vinyl-named": "^1.1.0",
+    "webpack": "^4.44.2",
     "webpack-cli": "^4.1.0",
     "webpack-stream": "^6.1.0",
     "yaml": "^1.10.0"

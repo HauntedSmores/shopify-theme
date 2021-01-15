@@ -1,0 +1,6 @@
+{% paginate collection.products by 25 %}
+  {% for product in collection.products %}
+    <!--show product details here -->
+    {{ paginate | default_pagination }}
+  {% endfor %}
+{% endpaginate %}

@@ -19,6 +19,7 @@
 
 <body>
   {{ content_for_layout }}
-  {% render 'theme-scripts' %}
+  {{ layout }}
+  {% render 'theme-scripts', layout: 'theme' %}
 </body>
 </html>

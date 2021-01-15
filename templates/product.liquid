@@ -1,0 +1,12 @@
+{% form "product", product %}
+  /* Additional HTML and Liquid to allow selecting product
+     variants and setting the quantity */
+
+    <select name="id">
+      {% for variant in product.variants %}
+          <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %}  value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+      {% endfor %}
+    </select>
+
+  <input type="submit" value="Add to cart" />
+{% endform %}
